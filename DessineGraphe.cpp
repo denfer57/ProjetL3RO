@@ -27,20 +27,22 @@ void DessineGraphe::creeDessinSommets(const Graphe<InfoArete, InfoSommet>& graph
 
 void DessineGraphe::creeDessinAretes(const Graphe<InfoArete, InfoSommet>& graphe)
 {
-	SDL_Rect nomTraitH[it];
+	SDL_Rect Aretes[graphe.nombreAretes()];
 	int posNom = 0;
 	
 	for (vector<Arete<InfoArete, InfoSommet>*>::const_iterator it = graphe.listeAretes.cbegin(); it != graphe.listeAretes.cend(); ++it)
 	{
 	    creeDessinArete(**it);
     	    
-            nomTraitH[posNom].x = arete.debut->info.position.getX();
-            nomTraitH[posNom].y = arete.debut->info.position.getY();
-            nomTraitH[posNom].w = 150;
-            nomTraitH[posNom].h = 5;
+            Aretes[posNom].x = arete.debut->info.position.getX();
+            Aretes[posNom].y = arete.debut->info.position.getY();
+            Aretes[posNom].w = 150;
+            Aretes[posNom].h = 5;
 
             posNom = posNom + 1;
         }
+	
+	posNom = 0;
 		
 	
 }
@@ -59,6 +61,13 @@ void DessineGraphe::creeDessinGraphe(const Graphe<InfoArete, InfoSommet>& graphe
 
 	creeDessinAretes(graphe);
 	creeDessinSommets(graphe);
+	
+	SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
+	
+	for(int k=0; k<graphe.nombreAretes(); k++)
+    	{
+        	SDL_RenderFillRect( renderer, &Arrete[k] );
+	}
 	
 	SDL_RenderPresent(renderer);
 
