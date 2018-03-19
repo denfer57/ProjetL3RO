@@ -38,15 +38,29 @@ void DessineGraphe::creeDessinSommets(const Graphe<InfoArete, InfoSommet>& graph
 
 void DessineGraphe::creeDessinAretes(const Graphe<InfoArete, InfoSommet>& graphe)
 {
+	SDL_Rect Aretes[graphe.nombreAretes()];
+	int posNom = 0;
+	
 	for (vector<Arete<InfoArete, InfoSommet>*>::const_iterator it = graphe.listeAretes.cbegin(); it != graphe.listeAretes.cend(); ++it)
 	{
-		creeDessinArete(**it);
-	}
+	    creeDessinArete(**it);
+    	    
+            Aretes[posNom].x = arete.debut->info.position.getX();
+            Aretes[posNom].y = arete.debut->info.position.getY();
+            Aretes[posNom].w = 150;
+            Aretes[posNom].h = 5;
+
+            posNom = posNom + 1;
+        }
+	
+	posNom = 0;
+		
+	
 }
 
 void DessineGraphe::creeDessinGraphe(const Graphe<InfoArete, InfoSommet>& graphe)
 {
-	 // Création de la fenêtre
+	 // CrÃ©ation de la fenÃªtre
 	pWindow = SDL_CreateWindow("Gestionnaire de chemins", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1366, 768, SDL_WINDOW_SHOWN);
 
 	
@@ -58,18 +72,29 @@ void DessineGraphe::creeDessinGraphe(const Graphe<InfoArete, InfoSommet>& graphe
 
 	creeDessinAretes(graphe);
 	creeDessinSommets(graphe);
+<<<<<<< HEAD
 
+=======
+	
+	SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
+	
+	for(int k=0; k<graphe.nombreAretes(); k++)
+    	{
+        	SDL_RenderFillRect( renderer, &Arrete[k] );
+	}
+	
+>>>>>>> d897395875d1617e59d7fbaffd94951f2083a15e
 	SDL_RenderPresent(renderer);
 
 	bool continuer = true;
 
 	while (continuer)
 	{
-		SDL_WaitEvent(&event); //Récupération de l'événement dans event 
-		switch (event.type) //Test du type d'événement
+		SDL_WaitEvent(&event); //RÃ©cupÃ©ration de l'Ã©vÃ©nement dans event 
+		switch (event.type) //Test du type d'Ã©vÃ©nement
 		{
 
-		case SDL_QUIT: //Si c'est un événement de type "Quitter"
+		case SDL_QUIT: //Si c'est un Ã©vÃ©nement de type "Quitter"
 			continuer = false;
 			break;
 
