@@ -5,7 +5,7 @@
 //Classe template représentant une arête du graphe.
 //Une arête relie deux sommets une information de type S et une information de type T.
 template <class S, class T>
-class Arete : public GrapheElement
+class Arete : public GrapheComposant
 {
 public:
 	Sommet<T> * debut;
