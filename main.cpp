@@ -1,16 +1,16 @@
-    #include <iostream>
-    #include <cstdlib>
-    #include <cstdio>
-    #include <stdlib.h>
-    #include <stdio.h>
+#include <iostream>
+#include <cstdlib>
+#include <cstdio>
+#include <stdlib.h>
+#include <stdio.h>
 
 #include <SDL2/SDL.h>
-#include "coordonnees.cpp"
-
-
+#include "coordonnees.h"
 
 int main(int argc, char** argv)
 {
+    //LectureFichier("ExemplesGraphes/data_VRPTW_10.gpr");
+
     SDL_Event event; // Cette variable servira plus tard à gérer les événements
 
     /* Création de la fenêtre */
