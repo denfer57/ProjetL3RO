@@ -1,163 +1,68 @@
-    #include <iostream>
-    #include <cstdlib>
-    #include <cstdio>
-    #include <stdlib.h>
-    #include <stdio.h>
+#include <iostream>
+#include <cstdlib>
+#include <cstdio>
+#include <string>
+#include <time.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <list>
+#include "SDL.h"
+#include "Fichier.h"
+#include "Graphe.h"
+#include "InfoArete.h"
+#include "InfoSommet.h"
+#include "DessineGraphe.h"
 
-#include <SDL2/SDL.h>
-#include "coordonnees.cpp"
+using namespace std;
 
+Graphe<InfoArete, InfoSommet> * creeGrapheTest()
+{
+	//données issues de data_VRPTW_10_3_2_4.gpr
+	cout << "Construction d'un graphe complet avec 8 sommets..." << endl;
 
+	const int nbSommet = 8;
+	const int nbArete = nbSommet * (nbSommet - 1) / 2;//nombre max d'arêtes possibles
+
+	Graphe<InfoArete, InfoSommet> * graphe = new Graphe<InfoArete, InfoSommet>();
+
+	// Création des sommets
+	Sommet<InfoSommet> * sommets[nbSommet];
+	sommets[0] = graphe->creeSommet(InfoSommet("i1", 0, 0));
+	sommets[1] = graphe->creeSommet(InfoSommet("i2", 2, 12));
+	sommets[2] = graphe->creeSommet(InfoSommet("i3", 15, 25));
+	sommets[3] = graphe->creeSommet(InfoSommet("i4", 5, 15));
+	sommets[4] = graphe->creeSommet(InfoSommet("i5", 1, 36));
+	sommets[5] = graphe->creeSommet(InfoSommet("i6", 3, 47));
+	sommets[6] = graphe->creeSommet(InfoSommet("i7", 1, 41));
+	sommets[7] = graphe->creeSommet(InfoSommet("i8", 1, 58));
+
+	// Création des arêtes
+	Arete<InfoArete, InfoSommet> * aretes[nbArete];
+	aretes[0] = graphe->creeArete(sommets[0], sommets[1], InfoArete("arc1", 4, 7));
+	aretes[1] = graphe->creeArete(sommets[0], sommets[2], InfoArete("arc2", 18, 20));
+	aretes[2] = graphe->creeArete(sommets[2], sommets[3], InfoArete("arc3", 14, 10));
+	aretes[3] = graphe->creeArete(sommets[3], sommets[4], InfoArete("arc4", 20, 6));
+	aretes[4] = graphe->creeArete(sommets[2], sommets[4], InfoArete("arc5", 17, 12));
+	aretes[5] = graphe->creeArete(sommets[4], sommets[5], InfoArete("arc6", 20, 6));
+	aretes[6] = graphe->creeArete(sommets[5], sommets[6], InfoArete("arc7", 12, 1));
+	aretes[7] = graphe->creeArete(sommets[7], sommets[5], InfoArete("arc8", 8, 11));
+	
+	return graphe;
+}
 
 int main(int argc, char** argv)
 {
-    SDL_Event event; // Cette variable servira plus tard à gérer les événements
+	Graphe<InfoArete, InfoSommet> * graphe = creeGrapheTest();
+	//copie 
+	//Graphe<InfoArete, InfoSommet> * graphe1 = new Graphe<InfoArete, InfoSommet>(*graphe);
 
-    /* Création de la fenêtre */
-    SDL_Window* pWindow = NULL;
-    pWindow = SDL_CreateWindow("Gestionnaire des chemins",SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1366, 768, SDL_WINDOW_SHOWN);
+	/*DessineGraphe * dessin = new DessineGraphe();
+	dessin->creeDessinGraphe(*graphe);*/
 
-    // Setup renderer
-    SDL_Renderer* renderer = NULL;
-    renderer =  SDL_CreateRenderer( pWindow, -1, SDL_RENDERER_ACCELERATED);
+	delete graphe;
+	//delete graphe1;
 
-    // Set render color to red ( background will be rendered in this color )
-    SDL_SetRenderDrawColor( renderer, 255, 255, 255, 255 );
-
-    // Clear winow
-    SDL_RenderClear( renderer );
-
-    /*SDL_Surface *ecran = NULL;
-    ecran = SDL_GetWindowSurface(pWindow);*/
-
-
-    //------ Espace de dessin du graph------
-
-    //Traits horizontaux
-    //list<int> G[]; //graphe liste ou tableau double entrée (distance, durée)
-    int coordonneHX[3];
-    int coordonneHY[5];
-    SDL_Rect nomTraitH[15];
-
-    int posNom = 0;
-
-    for(int i=0; i<3; i++)
-    {
-        coordonneHX[i] = i;
-
-        for(int j=0; j<5; j++)
-        {
-            coordonneHY[j] = j;
-            nomTraitH[posNom].x = calculerCoordonnees(100, 250, i);
-            nomTraitH[posNom].y = calculerCoordonnees(50, 167, j);
-            nomTraitH[posNom].w = 150;
-            nomTraitH[posNom].h = 5;
-
-            posNom = posNom + 1;
-        }
-    }
-
-
-    //Traits verticaux
-
-    int coordonneVX[4];
-    int coordonneVY[4];
-    SDL_Rect nomTraitV[16];
-
-    posNom = 0;
-
-    for(int i=0; i<4; i++)
-    {
-        coordonneVX[i] = i;
-
-        for(int j=0; j<4; j++)
-        {
-            coordonneVY[j] = j;
-
-            nomTraitV[posNom].x = calculerCoordonnees(50, 250, i);
-            nomTraitV[posNom].y = calculerCoordonnees(80, 167, j);
-            nomTraitV[posNom].w = 5;
-            nomTraitV[posNom].h = 100;
-
-            posNom = posNom + 1;
-        }
-    }
-
-    //Sommets
-
-    int coordonneSX[4];
-    int coordonneSY[4];
-    SDL_Rect nomSommet[16];
-
-    posNom = 0;
-
-    for(int i=0; i<4; i++)
-    {
-        coordonneSX[i] = i;
-
-        for(int j=0; j<5; j++)
-        {
-            coordonneVY[j] = j;
-
-            nomSommet[posNom].x = calculerCoordonnees(43, 250, i);
-            nomSommet[posNom].y = calculerCoordonnees(43, 167, j);
-            nomSommet[posNom].w = 20;
-            nomSommet[posNom].h = 20;
-
-            posNom = posNom + 1;
-        }
-    }
-
-
-    // Set render color to blue ( rect will be rendered in this color )
-    SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-
-    // Render rect
-    for(int k=0; k<15; k++)
-    {
-        SDL_RenderFillRect( renderer, &nomTraitH[k] );
-    }
-    for(int l=0; l<16; l++)
-    {
-        SDL_RenderFillRect( renderer, &nomTraitV[l] );
-    }
-    for(int m=0; m<20; m++)
-    {
-        SDL_RenderFillRect( renderer, &nomSommet[m] );
-    }
-
-
-    // Render the rect to the screen
-    SDL_RenderPresent(renderer);
-
-
-    //---------------------------------------
-
-
-    bool continuer = true;
-
-    while (continuer)
-    {
-        SDL_WaitEvent(&event); /* Récupération de l'événement dans event */
-        switch(event.type) /* Test du type d'événement */
-        {
-            /*case SDL_MOUSEBUTTONDOWN:
-                if (MovePossible(BaseX, BaseY, cibleX, cibleY, PM)) //Si le mouvement est réalisable
-                {
-                SDL_Flip(ecran);
-                }
-                break;*/
-
-            case SDL_QUIT: /* Si c'est un événement de type "Quitter" */
-                continuer = false;
-                break;
-
-        }
-    }
-
-    //SDL_FreeSurface(ecran);
-    SDL_DestroyWindow(pWindow);
-    SDL_Quit();
-
-    return 0;
+	system("pause");
+	return 0;
 }
+

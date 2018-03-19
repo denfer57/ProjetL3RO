@@ -4,17 +4,28 @@ void DessineGraphe::creeDessinSommet(const Sommet<InfoSommet>& sommet)
 {
 	SDL_Rect Sommet;
 
-	Sommet.x = sommet.info.position.getX();
-	Sommet.y = sommet.info.position.getY();
+	Sommet.x = (sommet.info.borneInf + (tailleSommet / 2)) * 10;
+	Sommet.y = (sommet.info.borneSup + (tailleSommet / 2)) * 10;
 	Sommet.h = tailleSommet;
 	Sommet.w = tailleSommet;
+	
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 
 	SDL_RenderFillRect(renderer, &Sommet);
 }
 
 void DessineGraphe::creeDessinArete(const Arete<InfoArete, InfoSommet>& arete)
 {
-	
+	SDL_Rect Arete;
+
+	Arete.x = (arete.debut->info.borneInf + (tailleSommet / 2)) * 10;
+	Arete.y = (arete.debut->info.borneSup + (tailleSommet / 2)) * 10;
+	Arete.w = 150;
+	Arete.h = 5;
+
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+	SDL_RenderFillRect(renderer, &Arete);
 }
 
 void DessineGraphe::creeDessinSommets(const Graphe<InfoArete, InfoSommet>& graphe)
@@ -47,7 +58,7 @@ void DessineGraphe::creeDessinGraphe(const Graphe<InfoArete, InfoSommet>& graphe
 
 	creeDessinAretes(graphe);
 	creeDessinSommets(graphe);
-	
+
 	SDL_RenderPresent(renderer);
 
 	bool continuer = true;
