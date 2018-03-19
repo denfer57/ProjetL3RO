@@ -27,15 +27,27 @@ void DessineGraphe::creeDessinSommets(const Graphe<InfoArete, InfoSommet>& graph
 
 void DessineGraphe::creeDessinAretes(const Graphe<InfoArete, InfoSommet>& graphe)
 {
+	SDL_Rect nomTraitH[it];
+	int posNom = 0;
+	
 	for (vector<Arete<InfoArete, InfoSommet>*>::const_iterator it = graphe.listeAretes.cbegin(); it != graphe.listeAretes.cend(); ++it)
 	{
-		creeDessinArete(**it);
-	}
+	    creeDessinArete(**it);
+    	    
+            nomTraitH[posNom].x = arete.debut->info.position.getX();
+            nomTraitH[posNom].y = arete.debut->info.position.getY();
+            nomTraitH[posNom].w = 150;
+            nomTraitH[posNom].h = 5;
+
+            posNom = posNom + 1;
+        }
+		
+	
 }
 
 void DessineGraphe::creeDessinGraphe(const Graphe<InfoArete, InfoSommet>& graphe)
 {
-	 // Création de la fenêtre
+	 // CrÃ©ation de la fenÃªtre
 	pWindow = SDL_CreateWindow("Gestionnaire de chemins", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1366, 768, SDL_WINDOW_SHOWN);
 
 	
@@ -54,11 +66,11 @@ void DessineGraphe::creeDessinGraphe(const Graphe<InfoArete, InfoSommet>& graphe
 
 	while (continuer)
 	{
-		SDL_WaitEvent(&event); //Récupération de l'événement dans event 
-		switch (event.type) //Test du type d'événement
+		SDL_WaitEvent(&event); //RÃ©cupÃ©ration de l'Ã©vÃ©nement dans event 
+		switch (event.type) //Test du type d'Ã©vÃ©nement
 		{
 
-		case SDL_QUIT: //Si c'est un événement de type "Quitter"
+		case SDL_QUIT: //Si c'est un Ã©vÃ©nement de type "Quitter"
 			continuer = false;
 			break;
 
