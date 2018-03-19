@@ -1,16 +1,13 @@
-#include <iostream>
-#include <cstdlib>
-#include <cstdio>
-#include <stdlib.h>
-#include <stdio.h>
+    #include <iostream>
+    #include <cstdlib>
+    #include <cstdio>
+    #include <stdlib.h>
+    #include <stdio.h>
 
 #include <SDL2/SDL.h>
-#include "coordonnees.h"
 
 int main(int argc, char** argv)
 {
-    //LectureFichier("ExemplesGraphes/data_VRPTW_10.gpr");
-
     SDL_Event event; // Cette variable servira plus tard à gérer les événements
 
     /* Création de la fenêtre */
@@ -33,8 +30,8 @@ int main(int argc, char** argv)
 
     //------ Espace de dessin du graph------
 
-    //Traits horizontaux
-    //list<int> G[]; //graphe liste ou tableau double entrée (distance, durée)
+    //Traits horisontaux
+
     int coordonneHX[3];
     int coordonneHY[5];
     SDL_Rect nomTraitH[15];
@@ -48,15 +45,15 @@ int main(int argc, char** argv)
         for(int j=0; j<5; j++)
         {
             coordonneHY[j] = j;
-            nomTraitH[posNom].x = calculerCoordonnees(100, 250, i);
-            nomTraitH[posNom].y = calculerCoordonnees(50, 167, j);
+
+            nomTraitH[posNom].x = 100+(250*i);
+            nomTraitH[posNom].y = 50+(167*j);
             nomTraitH[posNom].w = 150;
             nomTraitH[posNom].h = 5;
 
             posNom = posNom + 1;
         }
     }
-
 
     //Traits verticaux
 
@@ -74,8 +71,8 @@ int main(int argc, char** argv)
         {
             coordonneVY[j] = j;
 
-            nomTraitV[posNom].x = calculerCoordonnees(50, 250, i);
-            nomTraitV[posNom].y = calculerCoordonnees(80, 167, j);
+            nomTraitV[posNom].x = 50+(250*i);
+            nomTraitV[posNom].y = 80+(167*j);
             nomTraitV[posNom].w = 5;
             nomTraitV[posNom].h = 100;
 
@@ -99,8 +96,8 @@ int main(int argc, char** argv)
         {
             coordonneVY[j] = j;
 
-            nomSommet[posNom].x = calculerCoordonnees(43, 250, i);
-            nomSommet[posNom].y = calculerCoordonnees(43, 167, j);
+            nomSommet[posNom].x = 43+(250*i);
+            nomSommet[posNom].y = 43+(167*j);
             nomSommet[posNom].w = 20;
             nomSommet[posNom].h = 20;
 
@@ -142,14 +139,10 @@ int main(int argc, char** argv)
         switch(event.type) /* Test du type d'événement */
         {
             /*case SDL_MOUSEBUTTONDOWN:
-
                 if (MovePossible(BaseX, BaseY, cibleX, cibleY, PM)) //Si le mouvement est réalisable
                 {
-
                 SDL_Flip(ecran);
-
                 }
-
                 break;*/
 
             case SDL_QUIT: /* Si c'est un événement de type "Quitter" */
